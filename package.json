@@ -1,0 +1,27 @@
+{
+  "name": "rest-graphql-apis",
+  "version": "1.0.0",
+  "description": "Projeto criado para estudo do rest e graphQl",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juniorvilasboas/rest-graphql-apis.git"
+  },
+  "keywords": [
+    "rest",
+    "graphQl",
+    "api"
+  ],
+  "author": "Moacyr Santana",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/juniorvilasboas/rest-graphql-apis/issues"
+  },
+  "homepage": "https://github.com/juniorvilasboas/rest-graphql-apis#readme",
+  "dependencies": {
+    "express": "^4.17.2"
+  }
+}
