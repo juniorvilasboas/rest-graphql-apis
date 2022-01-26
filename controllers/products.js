@@ -1,6 +1,10 @@
-const findAll = (req, res) => {
+const db = require('../db')
+const Product = require('../models/product')(db)
+
+const findAll = async (req, res) => {
+  const products = await Product.findAll()
   res.send({
-    products: ['All products']
+    products
   })
 }
 
@@ -10,8 +14,9 @@ const findOne = (req, res) => {
   })
 }
 
-const create = (req, res) => {
-  console.log(req.body)
+const create = async (req, res) => {
+  const { product, price } = req.body
+  await Product.create([product, price])
   res.send({
     success: true,
     data: req.body
