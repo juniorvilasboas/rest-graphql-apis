@@ -36,6 +36,14 @@ const create = async (req, res) => {
   })
 }
 
+const createImage = async (req, res) => {
+  const { description, url } = req.body
+  await Product.addImage(req.params.id, [description, url])
+  res.send({
+    success: true
+  })
+}
+
 const edit = async (req, res) => {
   const { product, price } = req.body
   await Product.update(req.params.id, [product, price])
@@ -77,8 +85,8 @@ const patch = async (req, res) => {
 }
 
 const remove = async (req, res) => {
-  const prodcut = await Product.findOne(req.params.id)
-  if (!prodcut) {
+  const product = await Product.findOne(req.params.id)
+  if (!product) {
     return res.send({
       success: false,
       message: 'Product not found.'
@@ -90,12 +98,22 @@ const remove = async (req, res) => {
   })
 }
 
+const removeImage = async (req, res) => {
+  console.log(req.params.productId, req.params.id)
+  await Product.removeImage(req.params.productId, req.params.id)
+  res.send({
+    success: true,
+  })
+}
+
 module.exports = {
   findAll,
   findAllPagi,
   findOne,
   create,
+  createImage,
   edit,
   patch,
-  remove
+  remove,
+  removeImage
 }

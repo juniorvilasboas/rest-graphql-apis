@@ -8,6 +8,12 @@ const init = connection => {
     const conn = await connection
     await conn.query('delete from products where id = ? limit 1', [id])
   }
+
+  const removeImage = async(productId, id) => {
+    const conn = await connection
+    await conn.query('delete from images where product_id = ? and id = ? limit 1', [productId, id])
+  }
+
   const update = async(id, data) => {
     const conn = await connection
     await conn.query('update products set product = ?, price = ? where id = ?', [...data, id])
@@ -88,7 +94,8 @@ const init = connection => {
     findOne,
     findAllPaginated,
     findAllByCategory,
-    addImage
+    addImage,
+    removeImage
   }
 }
 module.exports = init
