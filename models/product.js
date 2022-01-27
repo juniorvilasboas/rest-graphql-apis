@@ -10,7 +10,7 @@ const init = connection => {
   }
   const update = async(id, data) => {
     const conn = await connection
-    await conn.query('update products set product = ? where id = ?', [...data, id])
+    await conn.query('update products set product = ?, price = ? where id = ?', [...data, id])
   }
   const findImages = async(results) => {
     if(results.length === 0) {
@@ -39,7 +39,13 @@ const init = connection => {
     const [results] = await conn.query('select * from products')
     return findImages(results)
   }
-  const findAllPaginated = async({ pageSize = 10, currentPage = 0 } = {}) => {
+  const findOne = async(id) => {
+    const conn = await connection
+    const [result] = await conn.query(`select * from products where id = ${id}`)
+    const productWithImage = await findImages(result)
+    return productWithImage[0]
+  }
+  const findAllPaginated = async({ pageSize = 1, currentPage = 0 } = {}) => {
     const conn = await connection
     const [results] = await conn.query(`select * from products limit ${currentPage*pageSize}, ${pageSize+1}`)
     const hasNext = results.length > pageSize
@@ -79,6 +85,7 @@ const init = connection => {
     update,
     updateCategories,
     findAll,
+    findOne,
     findAllPaginated,
     findAllByCategory,
     addImage

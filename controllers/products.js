@@ -3,15 +3,17 @@ const Product = require('../models/product')(db)
 
 const findAll = async (req, res) => {
   const products = await Product.findAll()
-  res.send({
-    products
-  })
+  res.send(products)
 }
 
-const findOne = (req, res) => {
-  res.send({
-    name: 'Product ' + req.params.id
-  })
+const findAllPagi = async (req, res) => {
+  const product = await Product.findAllPaginated()
+  res.send(product)
+}
+
+const findOne = async (req, res) => {
+  const product = await Product.findOne(req.params.id)
+  res.send(product)
 }
 
 const create = async (req, res) => {
@@ -23,26 +25,42 @@ const create = async (req, res) => {
   })
 }
 
-const edit = (req, res) => {
-  console.log(req.body)
+const edit = async (req, res) => {
+  const { product, price } = req.body
+  await Product.update(req.params.id, [product, price])
   res.send({
     success: true,
-    data: 'Alterado o id: ' + req.params.id
   })
 }
 
-const remove = (req, res) => {
-  console.log(req.body)
+const patch = async (req, res) => {
+  const oldProduct = await Product.findOne(req.params.id)
+  if (req.body.product) {
+    oldProduct.product = req.body.product
+  }
+  if (req.body.price) {
+    oldProduct.price = req.body.price
+  }
+
+  await Product.update(req.params.id, [oldProduct.product, oldProduct.price])
   res.send({
     success: true,
-    data: 'Removido o id: ' + req.params.id
+  })
+}
+
+const remove = async (req, res) => {
+  await Product.remove(req.params.id)
+  res.send({
+    success: true,
   })
 }
 
 module.exports = {
   findAll,
+  findAllPagi,
   findOne,
   create,
   edit,
+  patch,
   remove
 }
