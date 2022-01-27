@@ -2,17 +2,28 @@ const db = require('../db')
 const Product = require('../models/product')(db)
 
 const findAll = async (req, res) => {
-  const products = await Product.findAll()
+  let products = null
+  if (req.query.categoryId) {
+    products = await Product.findAllByCategory(req.query.categoryId)
+  } else {
+    products = await Product.findAll()
+  }
   res.send(products)
 }
 
 const findAllPagi = async (req, res) => {
-  const product = await Product.findAllPaginated()
+  const product = await Product.findAllPaginated(req.query)
   res.send(product)
 }
 
 const findOne = async (req, res) => {
   const product = await Product.findOne(req.params.id)
+  if (!product) {
+    return res.send({
+      success: false,
+      message: 'Product not found.'
+    })
+  }
   res.send(product)
 }
 
@@ -35,6 +46,12 @@ const edit = async (req, res) => {
 
 const patch = async (req, res) => {
   const oldProduct = await Product.findOne(req.params.id)
+  if (!oldProduct) {
+    return res.send({
+      success: false,
+      message: 'Product not found.'
+    })
+  }
   if (req.body.product) {
     oldProduct.product = req.body.product
   }
@@ -43,12 +60,30 @@ const patch = async (req, res) => {
   }
 
   await Product.update(req.params.id, [oldProduct.product, oldProduct.price])
+
+  if (req.body.categories) {
+    try {
+      await Product.updateCategories(req.params.id, req.body.categories)
+    } catch (err) {
+      return res.send({
+        success: false,
+        message: 'Categories not found.'
+      })
+    }
+  }
   res.send({
     success: true,
   })
 }
 
 const remove = async (req, res) => {
+  const prodcut = await Product.findOne(req.params.id)
+  if (!prodcut) {
+    return res.send({
+      success: false,
+      message: 'Product not found.'
+    })
+  }
   await Product.remove(req.params.id)
   res.send({
     success: true,
