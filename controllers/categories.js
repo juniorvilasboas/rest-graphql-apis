@@ -6,11 +6,6 @@ const findAll = async (req, res) => {
   res.send(categories)
 }
 
-const findAllPaginated = async (req, res) => {
-  const category = await Category.findAllPaginated(req.query)
-  res.send(category)
-}
-
 const findOne = async (req, res) => {
   const category = await Category.findOne(req.params.id)
   if (!category) {
@@ -48,7 +43,6 @@ const remove = async (req, res) => {
 
 module.exports = {
   findAll,
-  findAllPaginated,
   findOne,
   create,
   edit,

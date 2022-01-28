@@ -19,21 +19,6 @@ const init = connection => {
         return results
     }
 
-    const findAllPaginated = async({ pageSize = 1, currentPage = 0 } = {}) => {
-        const conn = await connection
-        const [results] = await conn.query(`select * from categories limit ${currentPage*pageSize}, ${pageSize+1}`)
-        const hasNext = results.length > pageSize
-
-        if (results.length > pageSize) {
-            results.pop()
-        }
-
-        return {
-            data: results,
-            hasNext
-        }
-    }
-
     const findOne = async(id) => {
         const conn = await connection
         const [result] = await conn.query(`select * from categories where id = ${id}`)
@@ -45,7 +30,6 @@ const init = connection => {
         remove,
         update,
         findAll,
-        findAllPaginated,
         findOne
     }
 }

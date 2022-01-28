@@ -1,14 +1,26 @@
 type Query {
-  getAllProducts: [Product]
+  getAllProducts(filter: ProductFilter): [Product]
 }
 type Product {
   id: String
-  name: String
+  product: String
+  price: Float
+  categories: [String]
 }
 type Mutation {
-  createProduct(input: ProductInput): Product
+  createProduct(input: CreateInput): Product
+  updateProduct(id: String!, input: UpdateInput): Product
+  deleteProduct(id: String!): Boolean
 }
-input ProductInput {
-  id: String!
-  name: String!
+input ProductFilter {
+  categoryId: String
+}
+input CreateInput {
+  product: String!
+  price: Float!
+}
+input UpdateInput {
+  product: String
+  price: Float
+  categories: [String]
 }
