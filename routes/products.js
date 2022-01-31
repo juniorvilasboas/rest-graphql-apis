@@ -5,7 +5,7 @@ const router = express.Router()
 const productController = require('../controllers/products')
 
 router.get('/', productController.findAll)
-router.get('/paginated', productController.findAllPagi)
+router.get('/paginated', productController.findAllPaginated)
 router.get('/:id', productController.findOne)
 
 router.patch('/:id', productController.patch)

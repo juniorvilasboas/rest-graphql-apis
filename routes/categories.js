@@ -4,6 +4,7 @@ const categoryController = require('../controllers/categories')
 const router = express.Router()
 
 router.get('/', categoryController.findAll)
+router.get('/paginated', categoryController.findAllPaginated)
 router.get('/:id', categoryController.findOne)
 router.post('/', categoryController.create)
 router.put('/:id', categoryController.edit)

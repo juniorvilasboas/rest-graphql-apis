@@ -11,7 +11,7 @@ const findAll = async (req, res) => {
   res.send(products)
 }
 
-const findAllPagi = async (req, res) => {
+const findAllPaginated = async (req, res) => {
   const product = await Product.findAllPaginated(req.query)
   res.send(product)
 }
@@ -21,7 +21,7 @@ const findOne = async (req, res) => {
   if (!product) {
     return res.send({
       success: false,
-      message: 'Product not found.'
+      message: 'Product not found.',
     })
   }
   res.send(product)
@@ -32,7 +32,7 @@ const create = async (req, res) => {
   await Product.create([product, price])
   res.send({
     success: true,
-    data: req.body
+    data: req.body,
   })
 }
 
@@ -40,7 +40,7 @@ const createImage = async (req, res) => {
   const { description, url } = req.body
   await Product.addImage(req.params.id, [description, url])
   res.send({
-    success: true
+    success: true,
   })
 }
 
@@ -57,7 +57,7 @@ const patch = async (req, res) => {
   if (!oldProduct) {
     return res.send({
       success: false,
-      message: 'Product not found.'
+      message: 'Product not found.',
     })
   }
   if (req.body.product) {
@@ -75,7 +75,7 @@ const patch = async (req, res) => {
     } catch (err) {
       return res.send({
         success: false,
-        message: 'Categories not found.'
+        message: 'Categories not found.',
       })
     }
   }
@@ -89,7 +89,7 @@ const remove = async (req, res) => {
   if (!product) {
     return res.send({
       success: false,
-      message: 'Product not found.'
+      message: 'Product not found.',
     })
   }
   await Product.remove(req.params.id)
@@ -99,7 +99,6 @@ const remove = async (req, res) => {
 }
 
 const removeImage = async (req, res) => {
-  console.log(req.params.productId, req.params.id)
   await Product.removeImage(req.params.productId, req.params.id)
   res.send({
     success: true,
@@ -108,12 +107,12 @@ const removeImage = async (req, res) => {
 
 module.exports = {
   findAll,
-  findAllPagi,
+  findAllPaginated,
   findOne,
   create,
   createImage,
   edit,
   patch,
   remove,
-  removeImage
+  removeImage,
 }

@@ -1,14 +1,38 @@
-const { getAllProducts, createProduct, deleteProduct, updateProduct } = require('./products')
+const {
+  getAllProducts,
+  getOneProduct,
+  createProduct,
+  createImageOnProduct,
+  updateProduct,
+  deleteProduct,
+  deleteImageOnProduct,
+} = require('./products')
+
+const {
+  getAllCategories,
+  getOneCategory,
+  createCategory,
+  updateCategory,
+  deleteCategory,
+} = require('./categories')
 
 const resolvers = {
   Query: {
-    getAllProducts
+    getAllCategories,
+    getOneCategory,
+    getAllProducts,
+    getOneProduct,
   },
   Mutation: {
+    createCategory,
+    updateCategory,
+    deleteCategory,
     createProduct,
+    createImageOnProduct,
     updateProduct,
-    deleteProduct
-  }
+    deleteProduct,
+    deleteImageOnProduct,
+  },
 }
 
 module.exports = resolvers
